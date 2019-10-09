@@ -8,14 +8,6 @@
 This project includes some tools for working with [Circe][circe]'s representation of JSON documents using recursion
 schemes. It currently includes a pattern functor for `io.circe.Json` and some basic integration with [Droste][droste].
 
-## Contributors and participation
-
-This project supports the Scala [code of conduct][code-of-conduct] and we want
-all of its channels (Gitter, GitHub, etc.) to be welcoming environments for everyone.
-
-Please see the [Circe contributors' guide][contributing] for details on how to submit a pull
-request.
-
 ## Usage
 
 Count all the nulls anywhere in a document!
@@ -36,6 +28,14 @@ val doc = json"""{"x":[null,{"y":[1,null,true,[null,null]]}]}"""
 
 val result = cata(nullCounter).apply(doc) // result: Int = 4
 ```
+
+## Contributors and participation
+
+This project supports the Scala [code of conduct][code-of-conduct] and we want
+all of its channels (Gitter, GitHub, etc.) to be welcoming environments for everyone.
+
+Please see the [Circe contributors' guide][contributing] for details on how to submit a pull
+request.
 
 ## License
 
