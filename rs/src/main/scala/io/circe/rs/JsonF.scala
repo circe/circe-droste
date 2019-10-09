@@ -11,17 +11,29 @@ import io.circe.{ Json, JsonNumber, JsonObject }
  * A pattern-functor reflecting the JSON datatype structure in a
  * non-recursive way.
  */
-sealed trait JsonF[+A]
+sealed trait JsonF[+A] {
+  def map[B](f: A => B): JsonF[B]
+}
 
 object JsonF {
-  // format: off
-  final case object JNullF                                  extends JsonF[Nothing]
-  final case class JBooleanF(b: Boolean)                    extends JsonF[Nothing]
-  final case class JNumberF(n: JsonNumber)                  extends JsonF[Nothing]
-  final case class JStringF(s: String)                      extends JsonF[Nothing]
-  final case class JArrayF[A](value: Vector[A])             extends JsonF[A]
-  final case class JObjectF[A](fields: Vector[(String, A)]) extends JsonF[A]
-  // format: on
+  final case object JNullF extends JsonF[Nothing] {
+    def map[B](f: Nothing => B): JsonF[B] = this
+  }
+  final case class JBooleanF(b: Boolean) extends JsonF[Nothing] {
+    def map[B](f: Nothing => B): JsonF[B] = this
+  }
+  final case class JNumberF(n: JsonNumber) extends JsonF[Nothing] {
+    def map[B](f: Nothing => B): JsonF[B] = this
+  }
+  final case class JStringF(s: String) extends JsonF[Nothing] {
+    def map[B](f: Nothing => B): JsonF[B] = this
+  }
+  final case class JArrayF[A](value: Vector[A]) extends JsonF[A] {
+    def map[B](f: A => B): JsonF[B] = JArrayF(value.map(f))
+  }
+  final case class JObjectF[A](fields: Vector[(String, A)]) extends JsonF[A] {
+    def map[B](f: A => B): JsonF[B] = JObjectF(fields.map { case (k, v) => (k, f(v)) })
+  }
 
   /**
    * An co-algebraic function that unfolds one layer of json into
@@ -47,6 +59,8 @@ object JsonF {
   private[this] val fieldInstance: Traverse[Fields] = catsStdInstancesForVector.compose[Field]
 
   implicit val jsonFTraverseInstance: Traverse[JsonF] = new Traverse[JsonF] {
+    override def map[A, B](fa: JsonF[A])(f: A => B): JsonF[B] = fa.map(f)
+
     override def traverse[G[_], A, B](fa: JsonF[A])(f: A => G[B])(implicit G: Applicative[G]): G[JsonF[B]] = fa match {
       case JNullF           => G.pure(JNullF)
       case x @ JBooleanF(_) => G.pure(x)
