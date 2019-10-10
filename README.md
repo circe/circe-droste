@@ -25,8 +25,19 @@ val nullCounter: Algebra[JsonF, Int] = Algebra {
 
 val doc = json"""{"x":[null,{"y":[1,null,true,[null,null]]}]}"""
 
-
 val result = cata(nullCounter).apply(doc) // result: Int = 4
+```
+
+Or you can use Droste's `foldMap`:
+
+```scala
+import cats.instances.int._
+import higherkindness.droste.syntax.project._
+import io.circe.droste._, io.circe.literal._
+
+val doc = json"""{"x":[null,{"y":[1,null,true,[null,null]]}]}"""
+
+val result = doc.foldMap(j => if (j.isNull) 1 else 0) // result: Int = 4
 ```
 
 ## Contributors and participation
