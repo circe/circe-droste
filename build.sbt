@@ -14,8 +14,8 @@ val compilerOptions = Seq(
   "-Ywarn-numeric-widen"
 )
 
-val circeVersion = "0.12.2"
-val drosteVersion = "0.7.0"
+val circeVersion = "0.12.3"
+val drosteVersion = "0.8.0"
 val previousCirceRsVersion = "0.12.2"
 
 def priorTo2_13(scalaVersion: String): Boolean =
@@ -95,7 +95,6 @@ lazy val droste = project
   .settings(allSettings)
   .settings(
     moduleName := "circe-droste",
-    crossScalaVersions := crossScalaVersions.value.filterNot(_.startsWith("2.13")),
     mimaPreviousArtifacts := Set(), //"io.circe" %% "circe-droste" % previousCirceDrosteVersion),
     libraryDependencies ++= Seq(
       "io.circe" %% "circe-core" % circeVersion,
