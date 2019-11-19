@@ -17,9 +17,9 @@ import higherkindness.droste.Algebra, higherkindness.droste.scheme.cata
 import io.circe.pattern.JsonF, io.circe.droste._, io.circe.literal._
 
 val nullCounter: Algebra[JsonF, Int] = Algebra {
-  case JsonF.JNullF => 1
-  case JsonF.JArrayF(xs) => xs.sum
-  case JsonF.JObjectF(fs) => fs.map(_._2).sum
+  case JsonF.NullF => 1
+  case JsonF.ArrayF(xs) => xs.sum
+  case JsonF.ObjectF(fs) => fs.map(_._2).sum
   case _ => 0
 }
 
