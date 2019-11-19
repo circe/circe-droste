@@ -114,5 +114,4 @@ object JsonF {
       def onObject(value: JsonObject) =
         JObjectF(value.toVector)
     }
-
 }
