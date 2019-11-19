@@ -1,10 +1,10 @@
 package io.circe
 
-import io.circe.rs.JsonF.{ JArrayF, JBooleanF, JNullF, JNumberF, JObjectF, JStringF }
+import io.circe.pattern.JsonF.{ JArrayF, JBooleanF, JNullF, JNumberF, JObjectF, JStringF }
 import io.circe.testing.instances._
 import org.scalacheck.{ Arbitrary, Gen, Shrink }
 
-package object rs {
+package object pattern {
   implicit def arbitraryJsonF[A: Arbitrary]: Arbitrary[JsonF[A]] =
     Arbitrary(
       Gen.oneOf[JsonF[A]](

@@ -3,7 +3,7 @@
 [![Build status](https://img.shields.io/travis/circe/circe-rs/master.svg)](https://travis-ci.org/circe/circe-rs)
 [![Coverage status](https://img.shields.io/codecov/c/github/circe/circe-rs/master.svg)](https://codecov.io/github/circe/circe-rs)
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-green.svg)](https://gitter.im/circe/circe)
-[![Maven Central](https://img.shields.io/maven-central/v/io.circe/circe-rs_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/io.circe/circe-rs_2.13)
+[![Maven Central](https://img.shields.io/maven-central/v/io.circe/circe-droste_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/io.circe/circe-droste_2.13)
 
 This project includes some tools for working with [Circe][circe]'s representation of JSON documents using recursion
 schemes. It currently includes a pattern functor for `io.circe.Json` and some basic integration with [Droste][droste].
@@ -14,7 +14,7 @@ Count all the nulls anywhere in a document!
 
 ```scala
 import higherkindness.droste.Algebra, higherkindness.droste.scheme.cata
-import io.circe.rs.JsonF, io.circe.droste._, io.circe.literal._
+import io.circe.pattern.JsonF, io.circe.droste._, io.circe.literal._
 
 val nullCounter: Algebra[JsonF, Int] = Algebra {
   case JsonF.JNullF => 1

@@ -1,4 +1,4 @@
-package io.circe.rs
+package io.circe.pattern
 
 import cats.{ Applicative, Eval, Traverse }
 import cats.instances.tuple._

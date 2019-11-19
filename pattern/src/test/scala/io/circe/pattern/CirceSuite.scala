@@ -1,4 +1,4 @@
-package io.circe.rs
+package io.circe.pattern
 
 import io.circe.testing.ArbitraryInstances
 import org.scalatest.flatspec.AnyFlatSpec

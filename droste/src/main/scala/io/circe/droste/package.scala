@@ -4,7 +4,7 @@ import cats.kernel.Eq
 import cats.~>
 import higherkindness.droste.{ Algebra, Basis, Coalgebra, Delay }
 import higherkindness.droste.syntax.compose.∘
-import io.circe.rs.JsonF
+import io.circe.pattern.JsonF
 
 package object droste {
   val jsonAlgebra: Algebra[JsonF, Json] = Algebra(JsonF.foldJson)

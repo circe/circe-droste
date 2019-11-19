@@ -64,17 +64,17 @@ val root = project
       "io.circe" %% "circe-literal" % circeVersion
     )
   )
-  .aggregate(rsJVM, rsJS, droste)
+  .aggregate(patternJVM, patternJS, droste)
   .dependsOn(droste)
 
-lazy val rs = crossProject(JSPlatform, JVMPlatform)
+lazy val pattern = crossProject(JSPlatform, JVMPlatform)
   .withoutSuffixFor(JVMPlatform)
   .crossType(CrossType.Pure)
-  .in(file("rs"))
+  .in(file("pattern"))
   .settings(allSettings)
   .settings(
-    moduleName := "circe-rs",
-    mimaPreviousArtifacts := Set("io.circe" %% "circe-rs" % previousCirceRsVersion),
+    moduleName := "circe-pattern",
+    mimaPreviousArtifacts := Set(), // "io.circe" %% "circe-rs" % previousCirceRsVersion),
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core" % circeVersion,
       "io.circe" %%% "circe-generic" % circeVersion % Test,
@@ -87,8 +87,8 @@ lazy val rs = crossProject(JSPlatform, JVMPlatform)
     addMappingsToSiteDir(mappings in (Compile, packageDoc), docMappingsApiDir)
   )
 
-lazy val rsJVM = rs.jvm
-lazy val rsJS = rs.js
+lazy val patternJVM = pattern.jvm
+lazy val patternJS = pattern.js
 
 lazy val droste = project
   .in(file("droste"))
@@ -109,7 +109,7 @@ lazy val droste = project
     docMappingsApiDir := "api",
     addMappingsToSiteDir(mappings in (Compile, packageDoc), docMappingsApiDir)
   )
-  .dependsOn(rsJVM, rsJVM % "test->test")
+  .dependsOn(patternJVM, patternJVM % "test->test")
 
 lazy val publishSettings = Seq(
   releaseCrossBuild := true,

@@ -1,9 +1,9 @@
-package io.circe.rs
+package io.circe.pattern
 
 import cats.instances.int._, cats.instances.option._, cats.instances.set._
 import cats.laws.discipline.TraverseTests
 import io.circe.Json
-import io.circe.rs.JsonF.{ foldJson, unfoldJson }
+import io.circe.pattern.JsonF.{ foldJson, unfoldJson }
 
 class JsonFSuite extends CirceSuite {
 
