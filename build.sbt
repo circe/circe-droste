@@ -58,7 +58,6 @@ val root = project
   .settings(allSettings)
   .settings(noPublishSettings)
   .settings(
-    crossScalaVersions := Nil,
     libraryDependencies ++= Seq(
       "io.circe" %% "circe-jawn" % circeVersion,
       "io.circe" %% "circe-literal" % circeVersion
