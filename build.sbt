@@ -16,7 +16,7 @@ val compilerOptions = Seq(
 
 val circeVersion = "0.12.3"
 val drosteVersion = "0.8.0"
-val previousCirceRsVersion = "0.12.2"
+val previousCirceDrosteVersion = "0.1.0"
 
 def priorTo2_13(scalaVersion: String): Boolean =
   CrossVersion.partialVersion(scalaVersion) match {
@@ -74,7 +74,7 @@ lazy val pattern = crossProject(JSPlatform, JVMPlatform)
   .settings(allSettings)
   .settings(
     moduleName := "circe-pattern",
-    mimaPreviousArtifacts := Set(), // "io.circe" %% "circe-rs" % previousCirceRsVersion),
+    mimaPreviousArtifacts := Set(), // "io.circe" %% "circe-pattern" % previousCirceDrosteVersion),
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core" % circeVersion,
       "io.circe" %%% "circe-generic" % circeVersion % Test,
@@ -115,7 +115,7 @@ lazy val publishSettings = Seq(
   releaseCrossBuild := true,
   releasePublishArtifactsAction := PgpKeys.publishSigned.value,
   releaseVcsSign := true,
-  homepage := Some(url("https://github.com/circe/circe-rs")),
+  homepage := Some(url("https://github.com/circe/circe-droste")),
   licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   publishMavenStyle := true,
   publishArtifact in Test := false,
@@ -130,11 +130,11 @@ lazy val publishSettings = Seq(
       Some("releases".at(nexus + "service/local/staging/deploy/maven2"))
   },
   autoAPIMappings := true,
-  apiURL := Some(url("https://circe.github.io/circe-rs/api/")),
+  apiURL := Some(url("https://circe.github.io/circe-droste/api/")),
   scmInfo := Some(
     ScmInfo(
-      url("https://github.com/circe/circe-rs"),
-      "scm:git:git@github.com:circe/circe-rs.git"
+      url("https://github.com/circe/circe-droste"),
+      "scm:git:git@github.com:circe/circe-droste.git"
     )
   ),
   developers := List(
