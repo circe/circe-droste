@@ -1,7 +1,7 @@
-# circe-rs
+# circe-droste
 
-[![Build status](https://img.shields.io/travis/circe/circe-rs/master.svg)](https://travis-ci.org/circe/circe-rs)
-[![Coverage status](https://img.shields.io/codecov/c/github/circe/circe-rs/master.svg)](https://codecov.io/github/circe/circe-rs)
+[![Build status](https://img.shields.io/travis/circe/circe-droste/master.svg)](https://travis-ci.org/circe/circe-droste)
+[![Coverage status](https://img.shields.io/codecov/c/github/circe/circe-droste/master.svg)](https://codecov.io/github/circe/circe-droste)
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-green.svg)](https://gitter.im/circe/circe)
 [![Maven Central](https://img.shields.io/maven-central/v/io.circe/circe-droste_2.13.svg)](https://maven-badges.herokuapp.com/maven-central/io.circe/circe-droste_2.13)
 
@@ -50,7 +50,7 @@ request.
 
 ## License
 
-circe-rs is licensed under the **[Apache License, Version 2.0][apache]**
+circe-droste is licensed under the **[Apache License, Version 2.0][apache]**
 (the "License"); you may not use this software except in compliance with the
 License.
 
@@ -61,7 +61,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 [apache]: http://www.apache.org/licenses/LICENSE-2.0
-[api-docs]: https://circe.github.io/circe-rs/api/io/circe/
+[api-docs]: https://circe.github.io/circe-droste/api/io/circe/
 [circe]: https://github.com/circe/circe
 [code-of-conduct]: https://www.scala-lang.org/conduct.html
 [contributing]: https://circe.github.io/circe/contributing.html
