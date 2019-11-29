@@ -63,8 +63,8 @@ val root = project
       "io.circe" %% "circe-literal" % circeVersion
     )
   )
-  .aggregate(patternJVM, patternJS, droste)
-  .dependsOn(droste)
+  .aggregate(patternJVM, patternJS, drosteJVM, drosteJS)
+  .dependsOn(drosteJVM)
 
 lazy val pattern = crossProject(JSPlatform, JVMPlatform)
   .withoutSuffixFor(JVMPlatform)
@@ -89,26 +89,31 @@ lazy val pattern = crossProject(JSPlatform, JVMPlatform)
 lazy val patternJVM = pattern.jvm
 lazy val patternJS = pattern.js
 
-lazy val droste = project
+lazy val droste = crossProject(JSPlatform, JVMPlatform)
+  .withoutSuffixFor(JVMPlatform)
+  .crossType(CrossType.Pure)
   .in(file("droste"))
   .settings(allSettings)
   .settings(
     moduleName := "circe-droste",
     mimaPreviousArtifacts := Set(), //"io.circe" %% "circe-droste" % previousCirceDrosteVersion),
     libraryDependencies ++= Seq(
-      "io.circe" %% "circe-core" % circeVersion,
-      "io.circe" %% "circe-generic" % circeVersion % Test,
-      "io.circe" %% "circe-jawn" % circeVersion % Test,
-      "io.circe" %% "circe-testing" % circeVersion % Test,
-      "io.higherkindness" %% "droste-core" % drosteVersion,
-      "io.higherkindness" %% "droste-laws" % drosteVersion % Test,
-      "org.scalatestplus" %% "scalatestplus-scalacheck" % "3.1.0.0-RC2" % Test
+      "io.circe" %%% "circe-core" % circeVersion,
+      "io.circe" %%% "circe-generic" % circeVersion % Test,
+      "io.circe" %%% "circe-parser" % circeVersion % Test,
+      "io.circe" %%% "circe-testing" % circeVersion % Test,
+      "io.higherkindness" %%% "droste-core" % drosteVersion,
+      "io.higherkindness" %%% "droste-laws" % drosteVersion % Test,
+      "org.scalatestplus" %%% "scalatestplus-scalacheck" % "3.1.0.0-RC2" % Test
     ),
     ghpagesNoJekyll := true,
     docMappingsApiDir := "api",
     addMappingsToSiteDir(mappings in (Compile, packageDoc), docMappingsApiDir)
   )
-  .dependsOn(patternJVM, patternJVM % "test->test")
+  .dependsOn(pattern, pattern % "test->test")
+
+lazy val drosteJVM = droste.jvm
+lazy val drosteJS = droste.js
 
 lazy val publishSettings = Seq(
   releaseCrossBuild := true,
