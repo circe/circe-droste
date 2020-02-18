@@ -12,7 +12,5 @@ class JsonFSuite extends CirceSuite {
     assert(unfoldJson(foldJson(jsonF)) === jsonF)
   }
 
-  "unfold then fold" should "be identity " in forAll { json: Json =>
-    assert(foldJson(unfoldJson(json)) === json)
-  }
+  "unfold then fold" should "be identity " in forAll { json: Json => assert(foldJson(unfoldJson(json)) === json) }
 }
