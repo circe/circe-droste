@@ -14,7 +14,7 @@ val compilerOptions = Seq(
   "-Ywarn-numeric-widen"
 )
 
-val circeVersion = "0.12.3"
+val circeVersion = "0.13.0"
 val drosteVersion = "0.8.0"
 val previousCirceDrosteVersion = "0.1.0"
 
@@ -78,7 +78,7 @@ lazy val pattern = crossProject(JSPlatform, JVMPlatform)
       "io.circe" %%% "circe-core" % circeVersion,
       "io.circe" %%% "circe-generic" % circeVersion % Test,
       "io.circe" %%% "circe-testing" % circeVersion % Test,
-      "org.scalacheck" %%% "scalacheck" % "1.14.2" % Test,
+      "org.scalacheck" %%% "scalacheck" % "1.14.3" % Test,
       "org.scalatestplus" %%% "scalacheck-1-14" % "3.1.0.1" % Test,
       "org.typelevel" %%% "discipline-scalatest" % "1.0.0" % Test
     ),
