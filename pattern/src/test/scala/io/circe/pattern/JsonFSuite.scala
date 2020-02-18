@@ -6,7 +6,7 @@ import io.circe.Json
 import io.circe.pattern.JsonF.{ foldJson, unfoldJson }
 
 class JsonFSuite extends CirceSuite {
-  checkLaws("Traverse[JsonF]", TraverseTests[JsonF].traverse[Int, Int, Int, Set[Int], Option, Option])
+  checkAll("Traverse[JsonF]", TraverseTests[JsonF].traverse[Int, Int, Int, Set[Int], Option, Option])
 
   "fold then unfold" should "be identity " in forAll { jsonF: JsonF[Json] =>
     assert(unfoldJson(foldJson(jsonF)) === jsonF)
