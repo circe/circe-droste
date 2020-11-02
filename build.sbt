@@ -78,7 +78,7 @@ lazy val pattern = crossProject(JSPlatform, JVMPlatform)
       "io.circe" %%% "circe-core" % circeVersion,
       "io.circe" %%% "circe-generic" % circeVersion % Test,
       "io.circe" %%% "circe-testing" % circeVersion % Test,
-      "org.scalacheck" %%% "scalacheck" % "1.14.3" % Test,
+      "org.scalacheck" %%% "scalacheck" % "1.15.0" % Test,
       "org.scalatestplus" %%% "scalacheck-1-14" % "3.1.4.0" % Test,
       "org.typelevel" %%% "discipline-scalatest" % "1.0.1" % Test
     ),
