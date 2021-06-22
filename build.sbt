@@ -113,6 +113,7 @@ lazy val pattern = crossProject(JSPlatform, JVMPlatform)
     docMappingsApiDir := "api",
     addMappingsToSiteDir(Compile / packageDoc / mappings, docMappingsApiDir)
   )
+  .jsSettings(coverageEnabled := false)
 
 lazy val patternJVM = pattern.jvm
 lazy val patternJS = pattern.js
@@ -139,6 +140,7 @@ lazy val droste = crossProject(JSPlatform, JVMPlatform)
     docMappingsApiDir := "api",
     addMappingsToSiteDir(Compile / packageDoc / mappings, docMappingsApiDir)
   )
+  .jsSettings(coverageEnabled := false)
   .dependsOn(pattern, pattern % "test->test")
 
 lazy val drosteJVM = droste.jvm
