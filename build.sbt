@@ -1,6 +1,33 @@
 import sbtcrossproject.{ CrossType, crossProject }
 
-organization in ThisBuild := "io.circe"
+ThisBuild / organization := "io.circe"
+ThisBuild / crossScalaVersions := List("2.12.14", "2.13.6")
+ThisBuild / scalaVersion := crossScalaVersions.value.last
+
+ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
+ThisBuild / githubWorkflowPublishTargetBranches := Nil
+ThisBuild / githubWorkflowBuild := Seq(
+  WorkflowStep.Sbt(
+    List(
+      "clean",
+      "coverage",
+      "scalastyle",
+      "scalafmtCheckAll",
+      "scalafmtSbtCheck",
+      "test",
+      "coverageReport"
+    ),
+    id = None,
+    name = Some("Test")
+  ),
+  WorkflowStep.Use(
+    UseRef.Public(
+      "codecov",
+      "codecov-action",
+      "v1"
+    )
+  )
+)
 
 val compilerOptions = Seq(
   "-deprecation",
@@ -14,9 +41,9 @@ val compilerOptions = Seq(
   "-Ywarn-numeric-widen"
 )
 
-val circeVersion = "0.13.0"
+val circeVersion = "0.14.1"
 val drosteVersion = "0.8.0"
-val previousCirceDrosteVersion = "0.1.0"
+val previousCirceDrosteVersion = "0.2.0"
 
 def priorTo2_13(scalaVersion: String): Boolean =
   CrossVersion.partialVersion(scalaVersion) match {
@@ -39,14 +66,14 @@ val baseSettings = Seq(
         "-Ywarn-unused:imports"
       )
   ),
-  scalacOptions in (Compile, console) ~= {
+  Compile / console / scalacOptions ~= {
     _.filterNot(Set("-Ywarn-unused-import", "-Ywarn-unused:imports"))
   },
-  scalacOptions in (Test, console) ~= {
+  Test / console / scalacOptions ~= {
     _.filterNot(Set("-Ywarn-unused-import", "-Ywarn-unused:imports"))
   },
   coverageHighlighting := true,
-  (scalastyleSources in Compile) ++= (unmanagedSourceDirectories in Compile).value
+  (Compile / scalastyleSources) ++= (Compile / unmanagedSourceDirectories).value
 )
 
 val allSettings = baseSettings ++ publishSettings
@@ -78,13 +105,13 @@ lazy val pattern = crossProject(JSPlatform, JVMPlatform)
       "io.circe" %%% "circe-core" % circeVersion,
       "io.circe" %%% "circe-generic" % circeVersion % Test,
       "io.circe" %%% "circe-testing" % circeVersion % Test,
-      "org.scalacheck" %%% "scalacheck" % "1.15.0" % Test,
-      "org.scalatestplus" %%% "scalacheck-1-14" % "3.1.4.0" % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "1.0.1" % Test
+      "org.scalacheck" %%% "scalacheck" % "1.15.4" % Test,
+      "org.scalatestplus" %%% "scalacheck-1-15" % "3.2.9.0" % Test,
+      "org.typelevel" %%% "discipline-scalatest" % "2.1.5" % Test
     ),
     ghpagesNoJekyll := true,
     docMappingsApiDir := "api",
-    addMappingsToSiteDir(mappings in (Compile, packageDoc), docMappingsApiDir)
+    addMappingsToSiteDir(Compile / packageDoc / mappings, docMappingsApiDir)
   )
 
 lazy val patternJVM = pattern.jvm
@@ -97,7 +124,7 @@ lazy val droste = crossProject(JSPlatform, JVMPlatform)
   .settings(allSettings)
   .settings(
     moduleName := "circe-droste",
-    mimaPreviousArtifacts := Set(), //"io.circe" %% "circe-droste" % previousCirceDrosteVersion),
+    mimaPreviousArtifacts := Set("io.circe" %% "circe-droste" % previousCirceDrosteVersion),
     libraryDependencies ++= Seq(
       "io.circe" %%% "circe-core" % circeVersion,
       "io.circe" %%% "circe-generic" % circeVersion % Test,
@@ -105,12 +132,12 @@ lazy val droste = crossProject(JSPlatform, JVMPlatform)
       "io.circe" %%% "circe-testing" % circeVersion % Test,
       "io.higherkindness" %%% "droste-core" % drosteVersion,
       "io.higherkindness" %%% "droste-laws" % drosteVersion % Test,
-      "org.scalatestplus" %%% "scalacheck-1-14" % "3.1.4.0" % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "1.0.1" % Test
+      "org.scalatestplus" %%% "scalacheck-1-15" % "3.2.9.0" % Test,
+      "org.typelevel" %%% "discipline-scalatest" % "2.1.5" % Test
     ),
     ghpagesNoJekyll := true,
     docMappingsApiDir := "api",
-    addMappingsToSiteDir(mappings in (Compile, packageDoc), docMappingsApiDir)
+    addMappingsToSiteDir(Compile / packageDoc / mappings, docMappingsApiDir)
   )
   .dependsOn(pattern, pattern % "test->test")
 
@@ -124,7 +151,7 @@ lazy val publishSettings = Seq(
   homepage := Some(url("https://github.com/circe/circe-droste")),
   licenses := Seq("Apache 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   publishMavenStyle := true,
-  publishArtifact in Test := false,
+  Test / publishArtifact := false,
   pomIncludeRepository := { _ => false },
   publishTo := {
     val nexus = "https://oss.sonatype.org/"
