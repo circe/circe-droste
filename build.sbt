@@ -1,7 +1,7 @@
 import sbtcrossproject.{ CrossType, crossProject }
 
 ThisBuild / organization := "io.circe"
-ThisBuild / crossScalaVersions := List("2.12.13", "2.13.4")
+ThisBuild / crossScalaVersions := List("2.12.14", "2.13.4")
 ThisBuild / scalaVersion := crossScalaVersions.value.last
 
 ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
