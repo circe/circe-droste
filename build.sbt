@@ -1,7 +1,7 @@
 import sbtcrossproject.{ CrossType, crossProject }
 
 ThisBuild / organization := "io.circe"
-ThisBuild / crossScalaVersions := List("2.12.13", "2.13.4")
+ThisBuild / crossScalaVersions := List("2.12.14", "2.13.6")
 ThisBuild / scalaVersion := crossScalaVersions.value.last
 
 ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
@@ -90,7 +90,7 @@ val root = project
       "io.circe" %% "circe-literal" % circeVersion
     )
   )
-  .aggregate(patternJVM, patternJS, drosteJVM, drosteJS)
+  .aggregate(patternJVM, patternJS, drosteJVM)
   .dependsOn(drosteJVM)
 
 lazy val pattern = crossProject(JSPlatform, JVMPlatform)
@@ -105,9 +105,8 @@ lazy val pattern = crossProject(JSPlatform, JVMPlatform)
       "io.circe" %%% "circe-core" % circeVersion,
       "io.circe" %%% "circe-generic" % circeVersion % Test,
       "io.circe" %%% "circe-testing" % circeVersion % Test,
-      "org.scalacheck" %%% "scalacheck" % "1.14.3" % Test,
-      "org.scalatestplus" %%% "scalacheck-1-14" % "3.1.4.0" % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "1.0.1" % Test
+      "org.scalatestplus" %%% "scalacheck-1-15" % "3.2.9.0" % Test,
+      "org.typelevel" %%% "discipline-scalatest" % "2.1.5" % Test
     ),
     ghpagesNoJekyll := true,
     docMappingsApiDir := "api",
@@ -118,7 +117,7 @@ lazy val pattern = crossProject(JSPlatform, JVMPlatform)
 lazy val patternJVM = pattern.jvm
 lazy val patternJS = pattern.js
 
-lazy val droste = crossProject(JSPlatform, JVMPlatform)
+lazy val droste = crossProject(JVMPlatform)
   .withoutSuffixFor(JVMPlatform)
   .crossType(CrossType.Pure)
   .in(file("droste"))
@@ -133,18 +132,16 @@ lazy val droste = crossProject(JSPlatform, JVMPlatform)
       "io.circe" %%% "circe-testing" % circeVersion % Test,
       "io.higherkindness" %%% "droste-core" % drosteVersion,
       "io.higherkindness" %%% "droste-laws" % drosteVersion % Test,
-      "org.scalatestplus" %%% "scalacheck-1-14" % "3.1.4.0" % Test,
-      "org.typelevel" %%% "discipline-scalatest" % "1.0.1" % Test
+      "org.scalatestplus" %%% "scalacheck-1-15" % "3.2.9.0" % Test,
+      "org.typelevel" %%% "discipline-scalatest" % "2.1.5" % Test
     ),
     ghpagesNoJekyll := true,
     docMappingsApiDir := "api",
     addMappingsToSiteDir(Compile / packageDoc / mappings, docMappingsApiDir)
   )
-  .jsSettings(coverageEnabled := false)
   .dependsOn(pattern, pattern % "test->test")
 
 lazy val drosteJVM = droste.jvm
-lazy val drosteJS = droste.js
 
 lazy val publishSettings = Seq(
   releaseCrossBuild := true,
