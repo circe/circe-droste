@@ -8,8 +8,7 @@ import cats.kernel.instances.string._
 import io.circe.{ Json, JsonNumber, JsonObject }
 
 /**
- * A pattern-functor reflecting the JSON datatype structure in a
- * non-recursive way.
+ * A pattern-functor reflecting the JSON datatype structure in a non-recursive way.
  */
 sealed trait JsonF[+A] {
   def map[B](f: A => B): JsonF[B]
@@ -36,14 +35,12 @@ object JsonF {
   }
 
   /**
-   * An co-algebraic function that unfolds one layer of json into
-   * the pattern functor. Can be used for anamorphisms.
+   * An co-algebraic function that unfolds one layer of json into the pattern functor. Can be used for anamorphisms.
    */
   def unfoldJson(json: Json): JsonF[Json] = json.foldWith(unfolder)
 
   /**
-   * An algebraic function that collapses one layer of pattern-functor
-   * into Json. Can be used for catamorphisms.
+   * An algebraic function that collapses one layer of pattern-functor into Json. Can be used for catamorphisms.
    */
   def foldJson(jsonF: JsonF[Json]): Json = jsonF match {
     case NullF           => Json.Null
