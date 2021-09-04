@@ -52,7 +52,7 @@ def priorTo2_13(scalaVersion: String): Boolean =
   }
 
 val baseSettings = Seq(
-  addCompilerPlugin(("org.typelevel" % "kind-projector" % "0.13.1").cross(CrossVersion.full)),
+  addCompilerPlugin(("org.typelevel" % "kind-projector" % "0.13.2").cross(CrossVersion.full)),
   scalacOptions ++= compilerOptions,
   scalacOptions ++= (
     if (priorTo2_13(scalaVersion.value))
