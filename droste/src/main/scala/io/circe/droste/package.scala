@@ -13,5 +13,9 @@ package object droste {
   implicit val jsonBasis: Basis[JsonF, Json] = Basis.Default(jsonAlgebra, jsonCoalgebra)
 
   implicit val jsonDelayedEq: Delay[Eq, JsonF] =
-    λ[Eq ~> (Eq ∘ JsonF)#λ](eq => JsonF.jsonFEqInstance(eq))
+    new (Eq ~> (Eq ∘ JsonF)#λ) {
+      override def apply[B](fa: Eq[B]): (Eq ∘ JsonF)#λ[B] = {
+        JsonF.jsonFEqInstance(fa)
+      }
+    }
 }
