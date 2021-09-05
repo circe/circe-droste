@@ -1,7 +1,7 @@
-import sbtcrossproject.{ CrossType, crossProject }
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
 ThisBuild / organization := "io.circe"
-ThisBuild / crossScalaVersions := List("2.12.14", "2.13.6")
+ThisBuild / crossScalaVersions := List("2.12.14", "2.13.6", "3.0.2")
 ThisBuild / scalaVersion := crossScalaVersions.value.last
 
 ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8")
@@ -42,7 +42,7 @@ val compilerOptions = Seq(
 )
 
 val circeVersion = "0.14.1"
-val drosteVersion = "0.8.0"
+val drosteVersion = "0.9.0-M3"
 val previousCirceDrosteVersion = "0.2.0"
 
 def priorTo2_13(scalaVersion: String): Boolean =
@@ -52,7 +52,7 @@ def priorTo2_13(scalaVersion: String): Boolean =
   }
 
 val baseSettings = Seq(
-  addCompilerPlugin(("org.typelevel" % "kind-projector" % "0.13.1").cross(CrossVersion.full)),
+//  addCompilerPlugin(("org.typelevel" %% "kind-projector" % "0.13.2").cross(CrossVersion.full)),
   scalacOptions ++= compilerOptions,
   scalacOptions ++= (
     if (priorTo2_13(scalaVersion.value))
@@ -87,14 +87,16 @@ val root = project
   .settings(
     libraryDependencies ++= Seq(
       "io.circe" %% "circe-jawn" % circeVersion,
-      "io.circe" %% "circe-literal" % circeVersion
-    )
+//      "io.circe" %% "circe-literal" % circeVersion
+    ) ++ Seq(
+      compilerPlugin("org.typelevel" %% "kind-projector" % "0.13.2" cross CrossVersion.full),
+    ).filterNot(_ => scalaVersion.value.startsWith("3."))
   )
   .aggregate(patternJVM, patternJS, drosteJVM)
   .dependsOn(drosteJVM)
 
 lazy val pattern = crossProject(JSPlatform, JVMPlatform)
-  .withoutSuffixFor(JVMPlatform)
+//  .withoutSuffixFor(JVMPlatform)
   .crossType(CrossType.Pure)
   .in(file("pattern"))
   .settings(allSettings)
@@ -118,7 +120,7 @@ lazy val patternJVM = pattern.jvm
 lazy val patternJS = pattern.js
 
 lazy val droste = crossProject(JVMPlatform)
-  .withoutSuffixFor(JVMPlatform)
+//  .withoutSuffixFor(JVMPlatform)
   .crossType(CrossType.Pure)
   .in(file("droste"))
   .settings(allSettings)
