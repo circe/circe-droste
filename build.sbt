@@ -42,7 +42,7 @@ val compilerOptions = Seq(
 )
 
 val circeVersion = "0.14.1"
-val drosteVersion = "0.8.0"
+val drosteVersion = "0.9.0"
 val previousCirceDrosteVersion = "0.2.0"
 
 def priorTo2_13(scalaVersion: String): Boolean =
